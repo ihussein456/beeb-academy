@@ -13,12 +13,12 @@ export async function api(answer: string) {
                 Question: Describe the plum pudding model of the atom. [2 marks] 
                 Marks: 2 marks Max
                 Mark Scheme: a ball of positive charge
-with (negative) electrons
-embedded
-do not accept references to
-protons, nuclei, neutrons
-1
-1 
+                with (negative) electrons
+                embedded
+                do not accept references to
+                protons, nuclei, neutrons
+                1
+                1 
                 Student answer: ${answer}
                 Give your response in the following format:
                 Total Marks: [Total Marks]

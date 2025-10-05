@@ -29,10 +29,11 @@ export default function CreateForm() {
         placeholder="Write your answer here..."
         className="min-h-[200px]"
         name="answer"
+        required
       />
       <InputGroupAddon align="block-end" className="border-t">
         <InputGroupText>2 Marks</InputGroupText>
-        <InputGroupButton type="submit" size="sm" className="ml-auto" variant="default">
+        <InputGroupButton type="submit" size="sm" className="ml-auto cursor-pointer" variant="default">
           Mark <IconCornerDownLeft />
         </InputGroupButton>
       </InputGroupAddon>
