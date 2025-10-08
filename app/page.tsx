@@ -2,6 +2,8 @@
 import CreateForm from "@/components/items/create-form";
 import { ThemeToggle } from "@/components/theme-toggle";
 
+import { getQuestions } from "@/lib/data";
+
 export default async function Home() {
   //const response = await api();
   //console.log(response);
