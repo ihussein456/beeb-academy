@@ -17,12 +17,16 @@ import {
 import Form from "next/form"
 import { markAnswer } from "@/lib/actions"
 import { useActionState } from "react"
+import { QuestionBank } from "@/lib/definitions"
 
-export default function CreateForm() {
+export default function CreateForm({question} : {question: QuestionBank}) {
   const [state, formAction] = useActionState(markAnswer, null)
   return (
     <div className="grid w-full max-w-md gap-4 mt-4 mx-auto">
     <Form action={formAction}>
+      <input type="hidden" name="question" value={question.questions} />
+      <input type="hidden" name="marks" value={question.marks} />
+      <input type="hidden" name="markscheme" value={question.markscheme} />
     <InputGroup>
       <InputGroupTextarea
         id="textarea-code-32"
@@ -32,7 +36,7 @@ export default function CreateForm() {
         required
       />
       <InputGroupAddon align="block-end" className="border-t">
-        <InputGroupText>2 Marks</InputGroupText>
+        <InputGroupText>{question.marks} Mark{question.marks !== 1 ? 's' : ''}</InputGroupText>
         <InputGroupButton type="submit" size="sm" className="ml-auto cursor-pointer" variant="default">
           Mark <IconCornerDownLeft />
         </InputGroupButton>
@@ -40,7 +44,7 @@ export default function CreateForm() {
       <InputGroupAddon align="block-start" className="border-b">
         <InputGroupText className="font-mono font-medium">
           <IconBrandJavascript />
-          Describe the plum pudding model of the atom.
+          {question.questions}
         </InputGroupText>
         <InputGroupButton className="ml-auto" size="icon-xs">
           <IconRefresh />

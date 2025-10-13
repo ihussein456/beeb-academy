@@ -7,6 +7,8 @@ import { getQuestions } from "@/lib/data";
 export default async function Home() {
   //const response = await api();
   //console.log(response);
+  const question = await getQuestions()
+
   return (
     <>
       <header className="flex justify-between items-center p-4 border-b">
@@ -14,7 +16,7 @@ export default async function Home() {
         <ThemeToggle />
       </header>
       <main className="container mx-auto p-4">
-        <CreateForm />
+        <CreateForm question={question} />
       </main>
     </>
   );
