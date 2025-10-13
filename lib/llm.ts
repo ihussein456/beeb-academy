@@ -13,7 +13,7 @@ export async function api(answer: string) {
                 Mark the student's answer against the provided markscheme. 
                 Award marks fairly and explain your reasoning per mark point.
 
-                Question: ${question.question}. [${question.marks} marks] 
+                Question: ${question.questions}. [${question.marks} marks] 
                 Marks: ${question.marks} marks Max
                 Mark Scheme: ${question.markscheme}
                 Student answer: ${answer}

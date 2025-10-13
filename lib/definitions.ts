@@ -1,6 +1,9 @@
-export type Question = {
+export type QuestionBank = {
     id: number;
-    question: string;
+    exam_board: string;
+    higher: boolean;
+    triple: boolean;
+    questions: string;
     marks: number;
     markscheme: string;
 }
