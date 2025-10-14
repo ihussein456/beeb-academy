@@ -3,6 +3,7 @@ import CreateForm from "@/components/items/create-form";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 import { getQuestions } from "@/lib/data";
+import { LightRays } from "@/components/ui/light-rays";
 
 export default async function Questions() {
   //const response = await api();
@@ -11,7 +12,8 @@ export default async function Questions() {
 
   return (
     <>
-      <header className="flex justify-between items-center p-4 border-b">
+      <LightRays />
+        <header className="flex justify-between items-center p-4">
         <h1 className="text-2xl font-bold">Beeb Academy</h1>
         <ThemeToggle />
       </header>
