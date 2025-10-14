@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { IconArrowRight } from "@tabler/icons-react"
 //import Image from "next/image"
 import { BorderBeam } from "@/components/ui/border-beam"
-import { ThemeToggle } from "@/components/theme-toggle";
 import { LightRays } from "@/components/ui/light-rays";
 export default async function Home() {
   //const response = await api();
