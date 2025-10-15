@@ -61,6 +61,11 @@ export default function CreateForm({question} : {question: QuestionBank}) {
       <input type="hidden" name="markscheme" value={currentQuestion.markscheme} />
       <input type="hidden" name="subject" value={currentQuestion.subject} />
     <div className="relative">
+      <div className="mb-2">
+        <span className={cn("px-2.5 py-1 text-xs font-medium rounded-full border inline-block", getSubjectColor(currentQuestion.subject))}>
+          {currentQuestion.subject}
+        </span>
+      </div>
       <InputGroup>
         <InputGroupTextarea
           ref={textareaRef}
@@ -81,9 +86,6 @@ export default function CreateForm({question} : {question: QuestionBank}) {
             <IconHelp />
             {currentQuestion.questions}
           </InputGroupText>
-          <span className={cn("px-2 py-1 text-xs rounded-full border ml-2", getSubjectColor(currentQuestion.subject))}>
-            {currentQuestion.subject}
-          </span>
           <InputGroupButton 
             className="ml-auto" 
             size="icon-xs"
