@@ -13,6 +13,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Beeb Academy",
   description: "Marking AI for GCSE Science",
+  metadataBase: new URL('https://beeb-academy.vercel.app'),
+
 };
 
 export default function RootLayout({
