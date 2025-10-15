@@ -4,6 +4,7 @@ import {
     IconBrandJavascript,
     IconCopy,
     IconCornerDownLeft,
+    IconArrowRight,
     IconRefresh,
   } from "@tabler/icons-react"
   
@@ -90,10 +91,15 @@ export default function CreateForm({question} : {question: QuestionBank}) {
       </InputGroup>
     </Form>
     {showResult && state && (
+      <>
       <div ref={responseRef} className="mt-4 p-4 rounded-lg border bg-card">
         <h2 className="font-semibold mb-2">Response</h2>
         <p className="whitespace-pre-line">{state}</p>
       </div>
+      <InputGroupButton type="button" size="sm" className="ml-auto cursor-pointer text-center mx-auto" variant="default" onClick={handleRefresh}>
+          Next Question <IconArrowRight />
+    </InputGroupButton>
+    </>
     )}
   </div>
   )
