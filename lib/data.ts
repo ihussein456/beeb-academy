@@ -4,7 +4,7 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export async function getQuestions(){
     const data = await sql<QuestionBank[]>`
-    SELECT questions, marks, markscheme 
+    SELECT questions, marks, markscheme, subject
     FROM question_bank
     ORDER BY RANDOM()
     LIMIT 1;

@@ -1,8 +1,7 @@
 'use client'
 
 import {
-    IconBrandJavascript,
-    IconCopy,
+    IconHelp,
     IconCornerDownLeft,
     IconArrowRight,
     IconRefresh,
@@ -20,6 +19,8 @@ import Form from "next/form"
 import { markAnswer, getRandomQuestion } from "@/lib/actions"
 import { useActionState, useState, useTransition, useRef, useEffect } from "react"
 import { QuestionBank } from "@/lib/definitions"
+import { getSubjectColor } from "@/utils/subject"
+import { cn } from "@/lib/utils"
 
 export default function CreateForm({question} : {question: QuestionBank}) {
   const [state, formAction] = useActionState(markAnswer, null)
@@ -58,6 +59,7 @@ export default function CreateForm({question} : {question: QuestionBank}) {
       <input type="hidden" name="question" value={currentQuestion.questions} />
       <input type="hidden" name="marks" value={currentQuestion.marks} />
       <input type="hidden" name="markscheme" value={currentQuestion.markscheme} />
+      <input type="hidden" name="subject" value={currentQuestion.subject} />
     <div className="relative">
       <InputGroup>
         <InputGroupTextarea
@@ -76,9 +78,12 @@ export default function CreateForm({question} : {question: QuestionBank}) {
         </InputGroupAddon>
         <InputGroupAddon align="block-start" className="border-b">
           <InputGroupText className="font-mono font-medium">
-            <IconBrandJavascript />
+            <IconHelp />
             {currentQuestion.questions}
           </InputGroupText>
+          <span className={cn("px-2 py-1 text-xs rounded-full border ml-2", getSubjectColor(currentQuestion.subject))}>
+            {currentQuestion.subject}
+          </span>
           <InputGroupButton 
             className="ml-auto" 
             size="icon-xs"
@@ -87,9 +92,6 @@ export default function CreateForm({question} : {question: QuestionBank}) {
             type="button"
           >
             <IconRefresh className={isPending ? "animate-spin" : ""} />
-          </InputGroupButton>
-          <InputGroupButton variant="ghost" size="icon-xs">
-            <IconCopy />
           </InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
