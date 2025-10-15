@@ -1,4 +1,3 @@
-//import { api } from "@/lib/llm";
 import CreateForm from "@/components/items/create-form";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -6,8 +5,6 @@ import { getQuestions } from "@/lib/data";
 import { LightRays } from "@/components/ui/light-rays";
 
 export default async function Questions() {
-  //const response = await api();
-  //console.log(response);
   const question = await getQuestions()
 
   return (
