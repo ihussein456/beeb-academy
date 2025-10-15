@@ -6,6 +6,7 @@ import {
     IconCornerDownLeft,
     IconArrowRight,
     IconRefresh,
+    IconLoader2,
   } from "@tabler/icons-react"
   
 import {
@@ -27,9 +28,11 @@ export default function CreateForm({question} : {question: QuestionBank}) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const responseRef = useRef<HTMLDivElement>(null)
   const [showResult, setShowResult] = useState(false)
+  const [isMarking, setIsMarking] = useState(false)
 
   useEffect(() => {
     if (state) {
+      setIsMarking(false)
       setShowResult(true)
       // Scroll to response after a short delay to ensure it's rendered
       setTimeout(() => {
@@ -51,44 +54,54 @@ export default function CreateForm({question} : {question: QuestionBank}) {
 
   return (
     <div className="grid w-full max-w-md gap-4 mt-4 mx-auto">
-    <Form action={formAction} onSubmit={() => setShowResult(false)}>
+    <Form action={formAction} onSubmit={() => { setShowResult(false); setIsMarking(true); }}>
       <input type="hidden" name="question" value={currentQuestion.questions} />
       <input type="hidden" name="marks" value={currentQuestion.marks} />
       <input type="hidden" name="markscheme" value={currentQuestion.markscheme} />
-    <InputGroup>
-      <InputGroupTextarea
-        ref={textareaRef}
-        id="textarea-code-32"
-        placeholder="Write your answer here..."
-        className="min-h-[200px]"
-        name="answer"
-        required
-      />
-      <InputGroupAddon align="block-end" className="border-t">
-        <InputGroupText>{currentQuestion.marks} Mark{currentQuestion.marks !== 1 ? 's' : ''}</InputGroupText>
-        <InputGroupButton type="submit" size="sm" className="ml-auto cursor-pointer" variant="default">
-          Mark <IconCornerDownLeft />
-        </InputGroupButton>
-      </InputGroupAddon>
-      <InputGroupAddon align="block-start" className="border-b">
-        <InputGroupText className="font-mono font-medium">
-          <IconBrandJavascript />
-          {currentQuestion.questions}
-        </InputGroupText>
-        <InputGroupButton 
-          className="ml-auto" 
-          size="icon-xs"
-          onClick={handleRefresh}
-          disabled={isPending}
-          type="button"
-        >
-          <IconRefresh className={isPending ? "animate-spin" : ""} />
-        </InputGroupButton>
-        <InputGroupButton variant="ghost" size="icon-xs">
-          <IconCopy />
-        </InputGroupButton>
+    <div className="relative">
+      <InputGroup>
+        <InputGroupTextarea
+          ref={textareaRef}
+          id="textarea-code-32"
+          placeholder="Write your answer here..."
+          className="min-h-[200px]"
+          name="answer"
+          required
+        />
+        <InputGroupAddon align="block-end" className="border-t">
+          <InputGroupText>{currentQuestion.marks} Mark{currentQuestion.marks !== 1 ? 's' : ''}</InputGroupText>
+          <InputGroupButton type="submit" size="sm" className="ml-auto cursor-pointer" variant="default" disabled={isMarking}>
+            Mark <IconCornerDownLeft />
+          </InputGroupButton>
         </InputGroupAddon>
-      </InputGroup>
+        <InputGroupAddon align="block-start" className="border-b">
+          <InputGroupText className="font-mono font-medium">
+            <IconBrandJavascript />
+            {currentQuestion.questions}
+          </InputGroupText>
+          <InputGroupButton 
+            className="ml-auto" 
+            size="icon-xs"
+            onClick={handleRefresh}
+            disabled={isPending}
+            type="button"
+          >
+            <IconRefresh className={isPending ? "animate-spin" : ""} />
+          </InputGroupButton>
+          <InputGroupButton variant="ghost" size="icon-xs">
+            <IconCopy />
+          </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        
+        {/* Loading Overlay */}
+        {isMarking && (
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center gap-3 z-10">
+            <IconLoader2 className="w-8 h-8 animate-spin text-primary" />
+            <p className="text-sm font-medium text-muted-foreground">Marking your answer...</p>
+          </div>
+        )}
+      </div>
     </Form>
     {showResult && state && (
       <>
