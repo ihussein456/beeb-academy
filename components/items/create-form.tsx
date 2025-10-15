@@ -24,10 +24,17 @@ export default function CreateForm({question} : {question: QuestionBank}) {
   const [currentQuestion, setCurrentQuestion] = useState(question)
   const [isPending, startTransition] = useTransition()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const responseRef = useRef<HTMLDivElement>(null)
   const [showResult, setShowResult] = useState(false)
 
   useEffect(() => {
-    if (state) setShowResult(true)
+    if (state) {
+      setShowResult(true)
+      // Scroll to response after a short delay to ensure it's rendered
+      setTimeout(() => {
+        responseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }, [state])
 
   const handleRefresh = () => {
@@ -83,9 +90,9 @@ export default function CreateForm({question} : {question: QuestionBank}) {
       </InputGroup>
     </Form>
     {showResult && state && (
-      <div className="mt-4 p-4 rounded-lg border bg-card">
+      <div ref={responseRef} className="mt-4 p-4 rounded-lg border bg-card">
         <h2 className="font-semibold mb-2">Response</h2>
-        <p>{state}</p>
+        <p className="whitespace-pre-line">{state}</p>
       </div>
     )}
   </div>
