@@ -1,10 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import { ArrowRight, Download } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { HeroHeader } from './header'
 import { QuestionPrompt } from '@/components/question-prompt'
-import { cn } from "@/lib/utils";
 
 export default function HeroSection() {
     return (

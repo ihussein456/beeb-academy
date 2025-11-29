@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "motion/react"
-import { Check, X, GripVertical, CornerDownRight } from "lucide-react"
+import { Check, X, CornerDownRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const questions = [
@@ -16,7 +16,8 @@ const questions = [
 ]
 
 export function QuestionPrompt() {
-    const [currentQIndex, setCurrentQIndex] = useState(0)
+    // const [currentQIndex, setCurrentQIndex] = useState(0) // Removed unused state
+    const currentQIndex = 0; // Simplified for now since we only have one question
     const [selectedOption, setSelectedOption] = useState<number | null>(null)
     const [showExplanation, setShowExplanation] = useState(false)
 
