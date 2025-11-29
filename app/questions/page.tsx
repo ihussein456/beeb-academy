@@ -9,7 +9,7 @@ export default async function Questions() {
     <div className="min-h-screen bg-background font-sans selection:bg-[#2eaadc] selection:text-white">
       <HeroHeader />
       <main className="container mx-auto px-4 pt-24 pb-12">
-        <div className="max-w-3xl mx-auto mb-8">
+        <div className="max-w-3xl mx-auto">
            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
               <span>Workspace</span>
               <span>/</span>
