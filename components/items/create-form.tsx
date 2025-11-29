@@ -6,6 +6,8 @@ import {
     IconArrowRight,
     IconRefresh,
     IconLoader2,
+    IconCheck,
+    IconX
   } from "@tabler/icons-react"
   
 import {
@@ -21,6 +23,7 @@ import { useActionState, useState, useTransition, useRef, useEffect } from "reac
 import { QuestionBank } from "@/lib/definitions"
 import { getSubjectColor } from "@/utils/subject"
 import { cn } from "@/lib/utils"
+import { motion, AnimatePresence } from "motion/react"
 
 export default function CreateForm({question} : {question: QuestionBank}) {
   const [state, formAction] = useActionState(markAnswer, null)
@@ -54,70 +57,127 @@ export default function CreateForm({question} : {question: QuestionBank}) {
   }
 
   return (
-    <div className="grid w-full max-w-md gap-4 mt-4 mx-auto">
-    <Form action={formAction} onSubmit={() => { setShowResult(false); setIsMarking(true); }}>
-      <input type="hidden" name="question" value={currentQuestion.questions} />
-      <input type="hidden" name="marks" value={currentQuestion.marks} />
-      <input type="hidden" name="markscheme" value={currentQuestion.markscheme} />
-      <input type="hidden" name="subject" value={currentQuestion.subject} />
-    <div className="relative">
-      <div className="mb-2">
-        <span className={cn("px-2.5 py-1 text-xs font-medium rounded-full border inline-block", getSubjectColor(currentQuestion.subject))}>
-          {currentQuestion.subject}
-        </span>
-      </div>
-      <InputGroup>
-        <InputGroupTextarea
-          ref={textareaRef}
-          id="textarea-code-32"
-          placeholder="Write your answer here..."
-          className="min-h-[200px]"
-          name="answer"
-          required
-        />
-        <InputGroupAddon align="block-end" className="border-t">
-          <InputGroupText>{currentQuestion.marks} Mark{currentQuestion.marks !== 1 ? 's' : ''}</InputGroupText>
-          <InputGroupButton type="submit" size="sm" className="ml-auto cursor-pointer" variant="default" disabled={isMarking}>
-            Mark <IconCornerDownLeft />
-          </InputGroupButton>
-        </InputGroupAddon>
-        <InputGroupAddon align="block-start" className="border-b">
-          <InputGroupText className="font-mono font-medium">
-            <IconHelp />
-            {currentQuestion.questions}
-          </InputGroupText>
-          <InputGroupButton 
-            className="ml-auto" 
-            size="icon-xs"
-            onClick={handleRefresh}
-            disabled={isPending}
-            type="button"
-          >
-            <IconRefresh className={isPending ? "animate-spin" : ""} />
-          </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>
-        
-        {/* Loading Overlay */}
-        {isMarking && (
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center gap-3 z-10">
-            <IconLoader2 className="w-8 h-8 animate-spin text-primary" />
-            <p className="text-sm font-medium text-muted-foreground">Marking your answer...</p>
+    <div className="max-w-3xl w-full mx-auto py-8 md:py-12">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-card border border-border rounded-md shadow-sm overflow-hidden"
+      >
+        {/* Header Section */}
+        <div className="bg-secondary/30 px-6 py-4 border-b border-border flex items-center justify-between">
+           <div className="flex items-center gap-3">
+              <span className={cn("text-xs font-mono uppercase tracking-wider px-2 py-1 rounded-md border font-medium", getSubjectColor(currentQuestion.subject))}>
+                {currentQuestion.subject}
+              </span>
+           </div>
+           <div className="text-xs font-medium text-muted-foreground bg-secondary px-2 py-1 rounded border border-border">
+              {currentQuestion.marks} Mark{currentQuestion.marks !== 1 ? 's' : ''}
+           </div>
+        </div>
+
+        <div className="p-4 md:p-8">
+          {/* Question Block */}
+          <div className="mb-8">
+             <h3 className="text-sm font-medium text-muted-foreground mb-2 flex items-center gap-2">
+                <IconHelp size={16} /> Question
+             </h3>
+             <div className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
+                {currentQuestion.questions}
+             </div>
           </div>
+
+          {/* Answer Form */}
+          <Form action={formAction} onSubmit={() => { setShowResult(false); setIsMarking(true); }}>
+            <input type="hidden" name="question" value={currentQuestion.questions} />
+            <input type="hidden" name="marks" value={currentQuestion.marks} />
+            <input type="hidden" name="markscheme" value={currentQuestion.markscheme} />
+            <input type="hidden" name="subject" value={currentQuestion.subject} />
+            
+            <div className="relative group">
+              <InputGroup className="flex-col items-stretch shadow-none">
+                <InputGroupTextarea
+                  ref={textareaRef}
+                  id="answer-input"
+                  placeholder="Type your answer here..."
+                  className="min-h-[200px] resize-y bg-background border-border focus:border-muted-foreground/50 focus:ring-0 p-4 text-base leading-relaxed transition-colors rounded-md"
+                  name="answer"
+                  required
+                />
+                
+                <div className="flex items-center justify-between mt-4">
+                   <button 
+                      type="button"
+                      onClick={handleRefresh}
+                      disabled={isPending || isMarking}
+                      className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors px-2 py-1 rounded hover:bg-secondary"
+                   >
+                      <IconRefresh size={14} className={isPending ? "animate-spin" : ""} />
+                      Skip Question
+                   </button>
+
+                   <InputGroupButton 
+                      type="submit" 
+                      size="sm" 
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 rounded shadow-sm font-medium flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={isMarking}
+                   >
+                      {isMarking ? (
+                        <>
+                          <IconLoader2 size={16} className="animate-spin" />
+                          Marking...
+                        </>
+                      ) : (
+                        <>
+                          Submit Answer <IconCornerDownLeft size={16} />
+                        </>
+                      )}
+                   </InputGroupButton>
+                </div>
+              </InputGroup>
+            </div>
+          </Form>
+        </div>
+      </motion.div>
+
+      {/* Result Section */}
+      <AnimatePresence>
+        {showResult && state && (
+          <motion.div
+            ref={responseRef}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="mt-6 overflow-hidden"
+          >
+            <div className="bg-card border border-border rounded-md shadow-sm p-6 md:p-8 relative overflow-hidden">
+               <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+               
+               <div className="mb-4 flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                     <IconCheck size={14} />
+                  </div>
+                  <h3 className="font-semibold text-foreground">AI Feedback</h3>
+               </div>
+               
+               <div className="prose prose-sm max-w-none text-foreground leading-relaxed whitespace-pre-line">
+                  {state}
+               </div>
+
+               <div className="mt-8 flex justify-end">
+                  <button 
+                    type="button" 
+                    onClick={handleRefresh}
+                    className="bg-secondary hover:bg-secondary/80 text-foreground border border-border px-4 py-2 rounded text-sm font-medium flex items-center gap-2 transition-colors"
+                  >
+                    Next Question <IconArrowRight size={16} />
+                  </button>
+               </div>
+            </div>
+          </motion.div>
         )}
-      </div>
-    </Form>
-    {showResult && state && (
-      <>
-      <div ref={responseRef} className="mt-4 p-4 rounded-lg border bg-card">
-        <h2 className="font-semibold mb-2">Response</h2>
-        <p className="whitespace-pre-line">{state}</p>
-      </div>
-      <InputGroupButton type="button" size="sm" className="ml-auto cursor-pointer text-center mx-auto" variant="default" onClick={handleRefresh}>
-          Next Question <IconArrowRight />
-    </InputGroupButton>
-    </>
-    )}
-  </div>
+      </AnimatePresence>
+    </div>
   )
 }
