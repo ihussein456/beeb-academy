@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Beeb Academy",
+  title: "Beebify",
   description: "Marking AI for GCSE Science",
   metadataBase: new URL('https://beeb-academy.vercel.app'),
 

@@ -30,7 +30,7 @@ export const Logo = ({ className, uniColor }: { className?: string; uniColor?: b
                     </linearGradient>
                 </defs>
             </svg>
-            <span className="text-foreground text-lg font-semibold">Beeb Academy</span>
+            <span className="text-foreground text-lg font-semibold">Beebify</span>
         </div>
     )
 }
