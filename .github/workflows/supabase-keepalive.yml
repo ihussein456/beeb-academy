@@ -33,6 +33,7 @@ jobs:
 
       - name: Ping Supabase Postgres
         env:
+          NODE_OPTIONS: --dns-result-order=ipv4first
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
         run: |
@@ -44,8 +45,8 @@ jobs:
             process.env.POSTGRES_URL;
 
           if (!connectionString) {
-            console.error('Missing POSTGRES_URL_NON_POOLING or POSTGRES_URL secret.');
-            process.exit(1);
+            console.log('Skipping Supabase keepalive because POSTGRES_URL_NON_POOLING and POSTGRES_URL are not configured in GitHub secrets.');
+            process.exit(0);
           }
 
           const sql = postgres(connectionString, { ssl: 'require' });
